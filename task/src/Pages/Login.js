@@ -1,10 +1,10 @@
 import React from "react";
-import ContactForm from "../Components/Contact/ContactForm";
+import LoginForm from "../Components/Login/LoginForm";
 
 export default function Login() {
   return (
     <div>
-      <ContactForm />
+      <LoginForm />
     </div>
   );
 }

@@ -1,9 +1,8 @@
 import { React, useState, useEffect } from "react";
 import { Grid, Paper, Avatar, TextField, Button } from "@material-ui/core";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import "../Contact/ContactFormDesign.js";
 
-export default function ContactForm() {
+export default function LoginForm() {
   const paperStyle = {
     padding: 20,
     height: "70vh",
