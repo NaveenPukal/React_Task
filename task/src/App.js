@@ -1,12 +1,12 @@
 import "./App.css";
+
 import ContactForm from "./Components/Contact/ContactForm";
-import Navbar from "./Components/Header/Navbar";
+import Login from "./Pages/Login";
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
-      <ContactForm />
+      <Login />
     </div>
   );
 }

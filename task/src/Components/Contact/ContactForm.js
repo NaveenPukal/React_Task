@@ -1,11 +1,13 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { Grid, Paper, Avatar, TextField, Button } from "@material-ui/core";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import "../Contact/ContactFormDesign.js";
+
 export default function ContactForm() {
   const paperStyle = {
     padding: 20,
-    height: "60vh",
-    margin: "20px auto",
+    height: "70vh",
+    margin: "100px auto",
     width: 320,
   };
   const avatarStyle = { backgroundColor: "rgb(26 157 126)" };
@@ -14,57 +16,121 @@ export default function ContactForm() {
     backgroundColor: "rgb(26 157 126)",
     color: "white",
   };
-  const textFieldStyle = { marginTop: "20px" };
+  const textFieldStyle = { marginTop: "10px" };
+  const error = { color: "red" };
 
-  const handleSubmit = () => {
-    alert("thank you");
+  const initialValues = {
+    username: "",
+    email: "",
+    password: "",
+  };
+
+  const [formValues, setFormValues] = useState(initialValues);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setSubmit] = useState(false);
+  const handleChange = (e) => {
+    // console.log(e.target);
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+    console.log(formValues);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setSubmit(true);
+  };
+
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      console.log(formValues);
+    }
+  }, [formErrors]);
+
+  const validate = (values) => {
+    const errors = {};
+    const regax = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (!values.username) {
+      errors.username = "username is required";
+    }
+    if (!values.email) {
+      errors.email = "email is required";
+    } else if (!regax.test(values.email)) {
+      errors.email = "This is not a valid email format";
+    }
+    if (!values.password) {
+      errors.password = "password is required";
+    } else if (values.password.length < 4) {
+      errors.password = "Password must be more than 4 characters";
+    } else if (values.password.length > 10) {
+      errors.password = "Password cannot exceed more than 10 characters";
+    }
+    return errors;
   };
   return (
     <div>
-      <Grid>
-        <Paper elevation={10} style={paperStyle}>
-          <Grid align="center">
-            {" "}
-            <Avatar style={avatarStyle}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <h2>Sign in</h2>
-          </Grid>
-          <TextField
-            label="Username"
-            placeholder="Enter Username"
-            fullWidth
-            required
-            // style={textFieldStyle}
-          />
-          <TextField
-            label="Email"
-            placeholder="Enter Email"
-            fullWidth
-            type="email"
-            style={textFieldStyle}
-            required
-          />
-          <TextField
-            label="Password"
-            placeholder="Enter Password"
-            fullWidth
-            type="password"
-            style={textFieldStyle}
-            required
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            // color="primary"
-            fullWidth
-            style={buttonStyle}
-            onClick={handleSubmit}
-          >
-            Sign in
-          </Button>
-        </Paper>
-      </Grid>
+      {Object.keys(formErrors).length === 0 && isSubmit ? (
+        // <div className="ui message">Signed in successfully </div>
+        // <h1>Loged in</h1>
+        <a href="google.com"></a>
+      ) : (
+        <pre></pre>
+      )}
+      <form>
+        <Grid>
+          <Paper elevation={10} style={paperStyle}>
+            <Grid align="center">
+              {" "}
+              <Avatar style={avatarStyle}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <h2>Sign in</h2>
+            </Grid>
+            <TextField
+              label="Username"
+              name="username"
+              placeholder="Enter Username"
+              fullWidth
+              value={formValues.username}
+              required
+              onChange={handleChange}
+            />
+            <p style={error}>{formErrors.username}</p>
+            <TextField
+              label="Email"
+              placeholder="Enter Email"
+              value={formValues.email}
+              name="email"
+              fullWidth
+              type="email"
+              style={textFieldStyle}
+              onChange={handleChange}
+              required
+            />
+            <p style={error}>{formErrors.email}</p>
+            <TextField
+              label="Password"
+              placeholder="Enter Password"
+              name="password"
+              value={formValues.password}
+              fullWidth
+              type="password"
+              style={textFieldStyle}
+              onChange={handleChange}
+              required
+            />
+            <p style={error}> {formErrors.password}</p>
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              style={buttonStyle}
+              onClick={handleSubmit}
+            >
+              Sign in
+            </Button>
+          </Paper>
+        </Grid>
+      </form>
     </div>
   );
 }
