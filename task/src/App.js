@@ -15,6 +15,7 @@ function App() {
         <main>
           <Switch>
             <Route path="/login" exact={true} component={Login}></Route>
+
             <Route
               path="/dashboard"
               exact={true}

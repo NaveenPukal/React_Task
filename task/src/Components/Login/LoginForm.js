@@ -1,11 +1,8 @@
 import { React, useState, useEffect } from "react";
 import { Grid, Paper, Avatar, TextField, Button } from "@material-ui/core";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-// import { Navigate } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
 
-// import { useNavigate } from "react-router-dom";
-export default function LoginForm() {
+export default function LoginForm(props) {
   const paperStyle = {
     padding: 20,
     height: "70vh",
@@ -42,12 +39,11 @@ export default function LoginForm() {
     e.preventDefault();
     setFormErrors(validate(formValues));
     setSubmit(true);
-    // navigate("/dashboard");
   };
 
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(formValues);
+      window.location.href = "/dashboard";
     }
   }, [formErrors]);
 
@@ -73,12 +69,6 @@ export default function LoginForm() {
   };
   return (
     <div>
-      {Object.keys(formErrors).length === 0 && isSubmit ? (
-        <div className="ui message">Signed in successfully </div>
-      ) : (
-        // <Navigate to="/dashboard" replace={true} />
-        <pre></pre>
-      )}
       <form>
         <Grid>
           <Paper elevation={10} style={paperStyle}>
